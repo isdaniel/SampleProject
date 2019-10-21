@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <script src="https://cdn.staticfile.org/jquery/1.10.2/jquery.min.js"></script>
+    <title>This is a title</title>
+    <script>
+        $(function(){
+            $("#Captcha").click(function(){
+                var d  = new Date();
+                $(this).attr('src',"http://localhost:4686/Captcha.ashx?"+d.getTime());
+            });
+        });
+    </script>
+  </head>
+  <body>
+    <form action="http://localhost:4686/HttpProcess.ashx" method="post" enctype="multipart/form-data">
+        <input type="file" value="upload" name="files"/><br/>
+        <input type="text" value="" name="Captcha"/>
+        <img id="Captcha" src="http://localhost:4686/Captcha.ashx"/>
+        <input type="submit" value="submit" />
+    </form>
+  </body>
+</html>
