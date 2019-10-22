@@ -16,6 +16,7 @@ namespace Ado.Net_Sample
 
         public IEnumerable<T> Query<T>(string sql,
             Func<IDataReader,T> func,
+            CommandType commandType = CommandType.Text,
             params SqlParameter[] parameters)
         {
 
@@ -24,6 +25,7 @@ namespace Ado.Net_Sample
                 conn.Open();
                 using (var cmd = conn.CreateCommand())
                 {
+                    cmd.CommandType = commandType;
                     cmd.CommandText = sql;
                     cmd.Parameters.AddRange(parameters);
                     return cmd.ExecuteReader(func);

@@ -75,6 +75,9 @@
     <Compile Include="MemberInfo.ashx.cs">
       <DependentUpon>MemberInfo.ashx</DependentUpon>
     </Compile>
+    <Compile Include="MemberLogin.ashx.cs">
+      <DependentUpon>MemberLogin.ashx</DependentUpon>
+    </Compile>
     <Compile Include="MemberModel.cs" />
     <Compile Include="MemberService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -82,6 +85,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="MemberInfo.ashx" />
+    <Content Include="MemberLogin.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

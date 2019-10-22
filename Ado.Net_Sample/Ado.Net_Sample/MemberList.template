@@ -1,0 +1,19 @@
+
+
+<html>
+	<head>
+		<title>Hello Would</title>
+	</head>
+
+	<body>
+	　	<table border='1'>
+			<tr><td>Id</td>
+			<td>Name</td>
+			<td>Age</td>
+			<td>AddressName</td>
+			@{content}
+		</table>
+	</body>
+
+</html>
+

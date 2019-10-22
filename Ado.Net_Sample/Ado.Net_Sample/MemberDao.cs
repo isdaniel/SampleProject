@@ -24,7 +24,7 @@ WHERE p.[Name] = @Name";
                 Value = memberName
             };
 
-            #region Simple Version
+            #region Normal Version
             //            List<MemberModel> result = new List<MemberModel>();
 
             //            using (var conn = new SqlConnection(_conn))
@@ -38,7 +38,6 @@ WHERE p.[Name] = @Name";
             //                        Value = memberName
             //                    };
             //                    cmd.Parameters.Add(para);
-
             //                    using (var dr = cmd.ExecuteReader())
             //                    {
             //                        while (dr.Read())
@@ -54,7 +53,6 @@ WHERE p.[Name] = @Name";
             //                    }
             //                }
             //            }
-
             //            return result; 
             #endregion
 
@@ -66,7 +64,7 @@ WHERE p.[Name] = @Name";
                 Name = (string) dr["Name"],
                 Age = (int) dr["Age"],
                 AddressName = (string) dr["AddressName"]
-            }, para);
+            },parameters: para);
             #endregion
 
         }

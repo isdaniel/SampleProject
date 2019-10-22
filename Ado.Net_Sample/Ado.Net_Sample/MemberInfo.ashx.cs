@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -7,20 +8,38 @@ namespace Ado.Net_Sample
 {
     public class MemberInfo : IHttpHandler
     {
-        MemberService memberService = new MemberService();
+        readonly MemberService _memberService = new MemberService();
+
         public void ProcessRequest(HttpContext context)
         {
+            #region orignal code.
+            //StringBuilder sb = new StringBuilder();
+            //sb.Append("<table border='1'>");
+
+            //sb.Append("<tr>");
+            //sb.Append("<td>Id</td>");
+            //sb.Append("<td>Name</td>");
+            //sb.Append("<td>Age</td>");
+            //sb.Append("<td>AddressName</td>");
+            //sb.Append("<tr/>");
+            //SetTableData(sb);
+            //sb.Append("</table>");
+            //context.Response.Write(sb.ToString()); 
+            #endregion
+
             StringBuilder sb = new StringBuilder();
-            sb.Append("<table border='1'>");
+            SetTableData(sb);
+            string filePath = context.Server.MapPath("~/MemberList.template");
+            string templateContent= File.ReadAllText(filePath);
+            string replaceContent= templateContent.Replace("@{content}", sb.ToString());
+            context.Response.Write(replaceContent); 
 
-            sb.Append("<tr>");
-            sb.Append("<td>Id</td>");
-            sb.Append("<td>Name</td>");
-            sb.Append("<td>Age</td>");
-            sb.Append("<td>AddressName</td>");
-            sb.Append("<tr/>");
+            context.Response.ContentType = "text/html";
+        }
 
-            foreach (var item in memberService.GetMemberInfo("Daniel"))
+        private void SetTableData(StringBuilder sb)
+        {
+            foreach (var item in _memberService.GetMemberInfo("Daniel"))
             {
                 sb.Append("<tr>");
                 sb.Append($"<td>{item.Id}</td>");
@@ -29,11 +48,6 @@ namespace Ado.Net_Sample
                 sb.Append($"<td>{item.AddressName}</td>");
                 sb.Append("<tr/>");
             }
-
-            sb.Append("</table>");
-
-            context.Response.Write(sb.ToString());
-            context.Response.ContentType = "text/html";
         }
 
         public bool IsReusable

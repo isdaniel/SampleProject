@@ -64,3 +64,16 @@ A.PaymentSubTypeID
 -- 最後就是ORDER BY
 
 -- FROM~WHERE之間先處理 > WHERE條件或JOIN TABLE ON條件 > SELECT Column > GROUP BY > ORDER BY
+
+
+
+
+/*
+ACID原則。
+	Atomicity (原子性、不可部份完成性）
+	Consistency (一致性)
+	Isolation (隔離性)
+	Durability (持久性)
+*/
+
+https://retrydb.blogspot.com/2017/04/sql-server-acid.html
