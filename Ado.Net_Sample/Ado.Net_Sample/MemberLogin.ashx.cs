@@ -15,6 +15,7 @@ namespace Ado.Net_Sample
         {
             var password = context.Request.Form["password"];
             var userName = context.Request.Form["userName"];
+
             //todo get password from database by username;
           
             //todo compare with password.

@@ -15,7 +15,6 @@ namespace Ado.Net_Sample
             #region orignal code.
             //StringBuilder sb = new StringBuilder();
             //sb.Append("<table border='1'>");
-
             //sb.Append("<tr>");
             //sb.Append("<td>Id</td>");
             //sb.Append("<td>Name</td>");
@@ -29,7 +28,7 @@ namespace Ado.Net_Sample
 
             StringBuilder sb = new StringBuilder();
             SetTableData(sb);
-            string filePath = context.Server.MapPath("~/MemberList.template");
+            string filePath = context.Server.MapPath("~/Template/MemberList.template");
             string templateContent= File.ReadAllText(filePath);
             string replaceContent= templateContent.Replace("@{content}", sb.ToString());
             context.Response.Write(replaceContent); 

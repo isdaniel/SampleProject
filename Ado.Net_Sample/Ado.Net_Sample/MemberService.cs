@@ -6,7 +6,7 @@ namespace Ado.Net_Sample
     {
         MemberDao _memberDao = new MemberDao(); 
 
-        public IEnumerable<MemberModel> GetMemberInfo(string memberName)
+        public IEnumerable<MemberInfoModel> GetMemberInfo(string memberName)
         {
             return _memberDao.GetMemberInfo(memberName);
         }

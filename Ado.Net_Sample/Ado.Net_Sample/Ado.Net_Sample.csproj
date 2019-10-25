@@ -75,10 +75,11 @@
     <Compile Include="MemberInfo.ashx.cs">
       <DependentUpon>MemberInfo.ashx</DependentUpon>
     </Compile>
+    <Compile Include="MemberInfoModel.cs" />
     <Compile Include="MemberLogin.ashx.cs">
       <DependentUpon>MemberLogin.ashx</DependentUpon>
     </Compile>
-    <Compile Include="MemberModel.cs" />
+    <Compile Include="MemberAccount.cs" />
     <Compile Include="MemberService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SqlHelper.cs" />

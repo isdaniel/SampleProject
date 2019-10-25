@@ -2,6 +2,7 @@
 using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
+using System.Linq;
 using System.Security.AccessControl;
 
 namespace Ado.Net_Sample
@@ -10,7 +11,29 @@ namespace Ado.Net_Sample
     {
         private readonly string _conn = ConfigurationManager.ConnectionStrings["DbConn"].ConnectionString;
 
-        public IEnumerable<MemberModel> GetMemberInfo(string memberName)
+        public MemberAccount GetUserAccount(string username)
+        {
+            SqlHelper sqlHelper = new SqlHelper(_conn);
+            string sql = @"SELECT 
+    [UserID],
+    [UserName],
+    [PassWord]
+FROM dbo.UserAccount
+WHERE [UserName] = @UserName";
+            var para = new SqlParameter("@UserName", SqlDbType.VarChar, 100)
+            {
+                Value = username
+            };
+
+            return sqlHelper.Query(sql, (dr) => new MemberAccount()
+            {
+                UserID = (int)dr["UserID"],
+                UserName = (string)dr["UserName"],
+                PassWord = (string)dr["PassWord"]
+            }, parameters: para).FirstOrDefault();
+        }
+
+        public IEnumerable<MemberInfoModel> GetMemberInfo(string memberName)
         {
            string sql = @"SELECT p.id,
        p.[Name],
@@ -58,7 +81,7 @@ WHERE p.[Name] = @Name";
 
             #region Clean Version.
             SqlHelper sqlHelper = new SqlHelper(_conn);
-            return sqlHelper.Query(sql, (dr) => new MemberModel()
+            return sqlHelper.Query(sql, (dr) => new MemberInfoModel()
             {
                 Id = (int) dr["Id"],
                 Name = (string) dr["Name"],
