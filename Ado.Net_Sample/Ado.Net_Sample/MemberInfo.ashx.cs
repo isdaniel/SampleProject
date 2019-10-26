@@ -3,15 +3,22 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
+using System.Web.SessionState;
 
 namespace Ado.Net_Sample
 {
-    public class MemberInfo : IHttpHandler
+    public class MemberInfo : IHttpHandler,IRequiresSessionState
     {
         readonly MemberService _memberService = new MemberService();
 
         public void ProcessRequest(HttpContext context)
         {
+            if (context.Session["IsLogin"] == null || 
+                !(bool)context.Session["IsLogin"])
+            {
+                context.Response.Redirect("~/loginPage.html");
+            }
+
             #region orignal code.
             //StringBuilder sb = new StringBuilder();
             //sb.Append("<table border='1'>");
