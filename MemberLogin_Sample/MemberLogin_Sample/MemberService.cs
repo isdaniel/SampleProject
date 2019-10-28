@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace Ado.Net_Sample
+namespace MemberLogin_Sample
 {
     public class MemberService
     {

@@ -3,9 +3,8 @@ using System.Configuration;
 using System.Data;
 using System.Data.SqlClient;
 using System.Linq;
-using System.Security.AccessControl;
 
-namespace Ado.Net_Sample
+namespace MemberLogin_Sample
 {
     public class MemberDao
     {
@@ -48,35 +47,34 @@ WHERE p.[Name] = @Name";
             };
 
             #region Normal Version
-            //            List<MemberModel> result = new List<MemberModel>();
-
-            //            using (var conn = new SqlConnection(_conn))
+            //List<MemberModel> result = new List<MemberModel>();
+            //using (var conn = new SqlConnection(_conn))
+            //{
+            //    conn.Open();
+            //    using (var cmd = conn.CreateCommand())
+            //    {
+            //        cmd.CommandText = sql;
+            //        var para = new SqlParameter("@Name", SqlDbType.VarChar, 50)
+            //        {
+            //            Value = memberName
+            //        };
+            //        cmd.Parameters.Add(para);
+            //        using (var dr = cmd.ExecuteReader())
+            //        {
+            //            while (dr.Read())
             //            {
-            //                conn.Open();
-            //                using (var cmd = conn.CreateCommand())
+            //                result.Add(new MemberModel()
             //                {
-            //                    cmd.CommandText = sql;
-            //                    var para = new SqlParameter("@Name", SqlDbType.VarChar, 50)
-            //                    {
-            //                        Value = memberName
-            //                    };
-            //                    cmd.Parameters.Add(para);
-            //                    using (var dr = cmd.ExecuteReader())
-            //                    {
-            //                        while (dr.Read())
-            //                        {
-            //                            result.Add(new MemberModel()
-            //                            {
-            //                                Id = (int)dr["Id"],
-            //                                Name = (string)dr["Name"],
-            //                                Age = (int)dr["Age"],
-            //                                AddressName = (string)dr["AddressName"]
-            //                            });
-            //                        }
-            //                    }
-            //                }
+            //                    Id = (int)dr["Id"],
+            //                    Name = (string)dr["Name"],
+            //                    Age = (int)dr["Age"],
+            //                    AddressName = (string)dr["AddressName"]
+            //                });
             //            }
-            //            return result; 
+            //        }
+            //    }
+            //}
+            //return result;
             #endregion
 
             #region Clean Version.

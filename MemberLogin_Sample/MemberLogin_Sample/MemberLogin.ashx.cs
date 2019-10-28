@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Net;
+﻿using System.IO;
 using System.Web;
 using System.Web.SessionState;
 
-namespace Ado.Net_Sample
+namespace MemberLogin_Sample
 {
     /// <summary>
     /// Summary description for MemberLogin
@@ -28,7 +24,7 @@ namespace Ado.Net_Sample
             else
             {
                var loginPageHtml = File.ReadAllText(context.Server.MapPath("~/loginPage.html"))
-                   .Replace("<LoginFail/>", "<p>登入失敗!<p/>");
+                   .Replace("<LoginFail/>", "登入失敗!");
                 context.Response.Write(loginPageHtml);
                 context.Response.ContentType = "text/html";
             }

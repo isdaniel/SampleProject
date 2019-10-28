@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Data.SqlClient;
 
-namespace Ado.Net_Sample
+namespace MemberLogin_Sample
 {
     public class SqlHelper
     {

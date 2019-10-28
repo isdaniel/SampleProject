@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 
-namespace Ado.Net_Sample
+namespace MemberLogin_Sample
 {
     public static class DataLayerExtension
     {

@@ -1,11 +1,9 @@
-﻿using System;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
 using System.Web;
 using System.Web.SessionState;
 
-namespace Ado.Net_Sample
+namespace MemberLogin_Sample
 {
     public class MemberInfo : IHttpHandler,IRequiresSessionState
     {

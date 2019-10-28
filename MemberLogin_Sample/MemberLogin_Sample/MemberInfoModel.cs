@@ -1,4 +1,4 @@
-﻿namespace Ado.Net_Sample
+﻿namespace MemberLogin_Sample
 {
     public class MemberInfoModel
     {
