@@ -89,5 +89,26 @@ WHERE p.[Name] = @Name";
             #endregion
 
         }
+
+        public int CreateMemberAccount(MemberAccountModel model)
+        {
+            string sql = @"INSERT INTO dbo.UserAccount  (UserName,[PassWord]) VALUES (@UserName,@PassWord)";
+            SqlHelper sqlHelper = new SqlHelper(_conn);
+
+            SqlParameter usernameParameter = new SqlParameter("@UserName",SqlDbType.VarChar,100)
+            {
+                Value = model.UserName
+            };
+            SqlParameter passWordParameter = new SqlParameter("@PassWord",SqlDbType.VarChar,100)
+            {
+                Value = model.PassWord
+            };
+
+            return sqlHelper.ExecuteNonQuery(sql, parameters: new[]
+            {
+                usernameParameter, 
+                passWordParameter
+            });
+        }
     }
 }

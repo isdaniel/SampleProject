@@ -72,6 +72,9 @@
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CreateMember.ashx.cs">
+      <DependentUpon>CreateMember.ashx</DependentUpon>
+    </Compile>
     <Compile Include="DataLayerExtension.cs" />
     <Compile Include="MemberDao.cs" />
     <Compile Include="MemberInfo.ashx.cs">
@@ -89,6 +92,7 @@
   <ItemGroup>
     <Content Include="MemberInfo.ashx" />
     <Content Include="MemberLogin.ashx" />
+    <Content Include="CreateMember.ashx" />
     <None Include="packages.config" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>

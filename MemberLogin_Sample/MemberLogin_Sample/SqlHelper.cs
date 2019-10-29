@@ -14,6 +14,23 @@ namespace MemberLogin_Sample
             _conn = conn;
         }
 
+        public int ExecuteNonQuery(string sql,
+            CommandType commandType = CommandType.Text,
+            params  SqlParameter[] parameters)
+        {
+            using (var conn = new SqlConnection(_conn))
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandType = commandType;
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddRange(parameters);
+                    return cmd.ExecuteNonQuery();
+                }
+            }
+        }
+
         public IEnumerable<T> Query<T>(string sql,
             Func<IDataReader,T> func,
             CommandType commandType = CommandType.Text,

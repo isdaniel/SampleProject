@@ -13,8 +13,8 @@ namespace MemberLogin_Sample
 
         public void ProcessRequest(HttpContext context)
         {
-            var password = context.Request.Form["password"];
-            var userName = context.Request.Form["userName"];
+            var password = context.Request["password"];
+            var userName = context.Request["userName"];
 
             if (_memberService.IsUserLogin(userName, password))
             {
