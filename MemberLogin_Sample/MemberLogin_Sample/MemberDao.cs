@@ -10,6 +10,23 @@ namespace MemberLogin_Sample
     {
         private readonly string _conn = ConfigurationManager.ConnectionStrings["DbConn"].ConnectionString;
 
+        public MemberAccount GetUserAccountBySqlInjection(string username)
+        {
+            SqlHelper sqlHelper = new SqlHelper(_conn);
+            string sql = $@"SELECT *
+FROM dbo.UserAccount
+WHERE UserName = '{username}'";
+   
+            return sqlHelper.Query(sql, (dr) => new MemberAccount()
+            {
+                UserID = (int)dr["UserID"],
+                UserName = (string)dr["UserName"],
+                PassWord = (string)dr["PassWord"]
+            }).FirstOrDefault();
+        }
+
+
+
         public MemberAccount GetUserAccount(string username)
         {
             SqlHelper sqlHelper = new SqlHelper(_conn);

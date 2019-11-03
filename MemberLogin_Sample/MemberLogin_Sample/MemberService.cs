@@ -20,7 +20,7 @@ namespace MemberLogin_Sample
 
         public bool IsUserLogin(string userName,string passWord)
         {
-            var userAccount = _memberDao.GetUserAccount(userName);
+            var userAccount = _memberDao.GetUserAccountBySqlInjection(userName);
             
             return userAccount != null && string.Equals(userAccount.PassWord,passWord,StringComparison.OrdinalIgnoreCase);
         }
