@@ -11,8 +11,7 @@ namespace MemberLogin_Sample
 
         public void ProcessRequest(HttpContext context)
         {
-            if (context.Session["IsLogin"] == null || 
-                !(bool)context.Session["IsLogin"])
+            if (IsLogin(context))
             {
                 context.Response.Redirect("~/loginPage.html");
             }
@@ -30,15 +29,21 @@ namespace MemberLogin_Sample
             //sb.Append("</table>");
             //context.Response.Write(sb.ToString()); 
             #endregion
-
+            
             StringBuilder sb = new StringBuilder();
             SetTableData(sb);
             string filePath = context.Server.MapPath("~/Template/MemberList.template");
-            string templateContent= File.ReadAllText(filePath);
-            string replaceContent= templateContent.Replace("@{content}", sb.ToString());
-            context.Response.Write(replaceContent); 
+            string templateContent = File.ReadAllText(filePath);
+            string replaceContent = templateContent.Replace("@{content}", sb.ToString());
+            context.Response.Write(replaceContent);
 
             context.Response.ContentType = "text/html";
+        }
+
+        private bool IsLogin(HttpContext context)
+        {
+            return context.Session["IsLogin"] == null ||
+                   !(bool)context.Session["IsLogin"];
         }
 
         private void SetTableData(StringBuilder sb)

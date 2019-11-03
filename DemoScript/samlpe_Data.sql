@@ -118,3 +118,28 @@ SELECT o.CUST_CODE,SUM(ADVANCE_AMOUNT) 'total ADVANCE_AMOUNT'
 FROM ORDERS o
 GROUP BY o.CUST_CODE
 
+SELECT SUM(ADVANCE_AMOUNT)/COUNT(*)
+FROM ORDERS o
+WHERE CUST_CODE = 'C00009'
+
+SELECT SUM([AVG ADVANCE_AMOUNT])
+FROM (
+	SELECT o.CUST_CODE,
+		  AVG(ADVANCE_AMOUNT) 'AVG ADVANCE_AMOUNT'
+	FROM ORDERS o
+	GROUP BY o.CUST_CODE
+) t1
+
+SELECT SUM([AVG ADVANCE_AMOUNT]) 'total'
+FROM (
+	SELECT o.CUST_CODE,
+		  AVG(ADVANCE_AMOUNT) 'AVG ADVANCE_AMOUNT'
+	FROM ORDERS o
+	GROUP BY o.CUST_CODE
+) t1 
+ORDER BY SUM([AVG ADVANCE_AMOUNT])
+
+https://www.hackerrank.com/challenges/binary-search-tree-1/problem
+https://www.hackerrank.com/challenges/the-company/problem
+https://www.hackerrank.com/challenges/interviews/problem
+
