@@ -20,8 +20,10 @@ namespace MemberLogin_Sample
 
         public bool IsUserLogin(string userName,string passWord)
         {
+            //從資料庫撈取使用者資料
             var userAccount = _memberDao.GetUserAccountBySqlInjection(userName);
             
+            //判斷使用者輸入密碼是否和資料庫一致(判斷是否合法使用者)
             return userAccount != null && string.Equals(userAccount.PassWord,passWord,StringComparison.OrdinalIgnoreCase);
         }
 
