@@ -1,9 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
+using System.Data.SqlClient;
+using System.Data.SqlTypes;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Dapper;
 
 namespace Sql_Injection
 {
@@ -13,26 +16,31 @@ namespace Sql_Injection
 
         static void Main(string[] args)
         {
+
+            Console.WriteLine("請輸入使用者帳號");
             string userName = Console.ReadLine();
+            Console.WriteLine("請輸入使用者密碼");
             string passWord = Console.ReadLine(); 
 
-            SqlHelper sqlHelper = new SqlHelper(_conn);
+            //SqlHelper sqlHelper = new SqlHelper(_conn);
+
+            IEnumerable<MemberAccount> memberAccounts;
 
             string sql = $@"SELECT *
 FROM dbo.UserAccount
 WHERE UserName = '{userName}' AND [PassWord] = '{passWord}'";
 
-            var userAccounts = sqlHelper.Query(sql, (dr) =>
+            using (var conn = new SqlConnection(_conn))
             {
-                MemberAccount model = new MemberAccount()
-                {
-                    UserID = (int)dr["UserID"],
-                    PassWord = (string)dr["PassWord"],
-                    UserName = (string)dr["UserName"]
-                };
-                return model;
-            });
+                conn.Open();
+                memberAccounts = conn.Query<MemberAccount>(sql);
+            }
 
+            foreach (var item in memberAccounts)
+            {
+                Console.WriteLine($"UserName:{item.UserName}");
+            }
+            
             Console.ReadKey();
         }
     }
