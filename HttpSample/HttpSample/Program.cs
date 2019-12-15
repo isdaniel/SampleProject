@@ -8,6 +8,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Newtonsoft.Json;
 using RestSharp;
 
 namespace HttpSample
@@ -67,7 +68,22 @@ namespace HttpSample
 
         static void Main(string[] args)
         {
-            Console.WriteLine(HttpGet("https://github.com") );
+            // 準備寫入的 data
+            int id = 1;
+            string url = "http://localhost:1209/User/UserInfo";
+            using (HttpClient httpClient= new HttpClient())
+            {
+               
+                // 將 data 轉為 json
+                string json = JsonConvert.SerializeObject(new {id});
+                // 將轉為 string 的 json 依編碼並指定 content type 存為 httpcontent
+                HttpContent contentPost = new StringContent(json, Encoding.UTF8, "application/json");
+
+                HttpResponseMessage response = httpClient.PostAsync(new Uri(url),contentPost).Result;
+                response.EnsureSuccessStatusCode();
+                string responseBody = response.Content.ReadAsStringAsync().Result;
+                Console.WriteLine(responseBody);
+            }
             Console.ReadKey();
         }
 
