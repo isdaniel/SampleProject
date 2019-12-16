@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
+using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -8,6 +10,7 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using Dapper;
 using Newtonsoft.Json;
 using RestSharp;
 
@@ -15,6 +18,8 @@ namespace HttpSample
 {
     class Program
     {
+        static string connStr = ConfigurationManager.ConnectionStrings["DbConn"].ToString();
+
         /// <summary>
         /// POST傳輸
         /// </summary>
@@ -62,6 +67,7 @@ namespace HttpSample
         static void ExecuteByWebClient(string url)
         {
             WebClient wc = new WebClient();
+            //wc.Headers
             var result =wc.DownloadString(url);
             Console.WriteLine(result);
         }
@@ -84,6 +90,14 @@ namespace HttpSample
                 string responseBody = response.Content.ReadAsStringAsync().Result;
                 Console.WriteLine(responseBody);
             }
+
+
+            using (var conn = new SqlConnection(connStr))
+            {
+                //打開連結
+                conn.Open();
+            }
+
             Console.ReadKey();
         }
 
