@@ -1,8 +1,6 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
-using System.Configuration;
-using System.Data;
-using System.Data.SqlClient;
 using System.IO;
 using System.Linq;
 using System.Net;
@@ -11,22 +9,36 @@ using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
-using Dapper;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 
 namespace HttpSample
 {
+    public class EBMModel
+    {
+        public string RID { get; set; }
+
+        public string ChartNo { get; set; }
+
+        public string Status { get; set; }
+    }
+
     public class PersonModel
     {
         public int UserID { get; set; }
         public string UserName { get; set; }
         public string PassWord{ get; set; }
     }
+    public class PatientRoundModel
+    {
+        public string ChartNo { get; set; }
+        public string Date { get; set; }
+    }
 
     class Program
     {
-        static string connStr = ConfigurationManager.ConnectionStrings["DbConn"].ToString();
+        
 
         /// <summary>
         /// POST傳輸
@@ -72,6 +84,18 @@ namespace HttpSample
             }
         }
 
+        static string ExecuteByHttpClient(string url,string json)
+        {
+            using (HttpClient httpClient= new HttpClient())
+            {
+                
+                StringContent data = new StringContent(json,Encoding.UTF8,"application/json");
+                HttpResponseMessage response = httpClient.PostAsync(new Uri(url),data).Result;
+                response.EnsureSuccessStatusCode();
+                return response.Content.ReadAsStringAsync().Result;
+            }
+        }
+
         static void ExecuteByWebClient(string url)
         {
             WebClient wc = new WebClient();
@@ -82,33 +106,18 @@ namespace HttpSample
 
         static void Main(string[] args)
         {
-            // 準備寫入的 data
-            //int id = 1;
-            //string url = "http://localhost:1209/User/UserInfo";
-            //using (HttpClient httpClient= new HttpClient())
-            //{
-               
-            //    // 將 data 轉為 json
-            //    string json = JsonConvert.SerializeObject(new {id});
-            //    // 將轉為 string 的 json 依編碼並指定 content type 存為 httpcontent
-            //    HttpContent contentPost = new StringContent(json, Encoding.UTF8, "application/json");
+            ApiService apiService = new ApiService();
+            //第一次請求API
+            var data = JsonConvert.SerializeObject(new { RID = apiService.GetRID()});
+            var patientData = ExecuteByHttpClient("http://localhost:1209/api/Patient/GetPatientRounds", data);
 
-            //    HttpResponseMessage response = httpClient.PostAsync(new Uri(url),contentPost).Result;
-            //    response.EnsureSuccessStatusCode();
-            //    string responseBody = response.Content.ReadAsStringAsync().Result;
-            //    Console.WriteLine(responseBody);
-            //}
+          
+            var chartNo = JsonConvert.DeserializeObject< ApiReturnViewModel<IEnumerable<PatientRoundModel>>>(patientData).Data.Select(x=>x.ChartNo);
+            var chartNoJson = JsonConvert.SerializeObject(new {ChartNo = chartNo});
+            var EBMJson = ExecuteByHttpClient("http://localhost:1209/api/Patient/GetPatients", chartNoJson);
+            var EBMList = JsonConvert.DeserializeObject<ApiReturnViewModel<IEnumerable<EBMModel>>>(EBMJson).Data;
 
-        
-            using (var conn = new SqlConnection(connStr))
-            {
-                DynamicParameters parameters = new DynamicParameters();
-                parameters.Add("@UserName","Daniel",DbType.AnsiString,ParameterDirection.Input,100);
-                //打開連結
-                conn.Open();
-                var result = conn.Query<PersonModel>("[dbo].[Sample_Procedure]",parameters,commandType:CommandType.StoredProcedure);
-            }
-
+            apiService.InsertEBM(EBMList);
             Console.ReadKey();
         }
 
@@ -142,5 +151,12 @@ namespace HttpSample
             IRestResponse<object> response2 = client.Execute<object>(request);
             //var name = response2.Data.Name;
         }
+    }
+
+    public class ApiReturnViewModel<T>
+    {
+        public string Status { get; set; }
+        public T Data { get; set; }
+        public string ErrorMessage { get; set; }
     }
 }
