@@ -108,17 +108,28 @@ namespace HttpSample
         {
             ApiService apiService = new ApiService();
             //第一次請求API
-            var data = JsonConvert.SerializeObject(new { RID = apiService.GetRID()});
-            var patientData = ExecuteByHttpClient("http://localhost:1209/api/Patient/GetPatientRounds", data);
+            var chartNo = GetChartNo(apiService.GetRID());
 
-          
-            var chartNo = JsonConvert.DeserializeObject< ApiReturnViewModel<IEnumerable<PatientRoundModel>>>(patientData).Data.Select(x=>x.ChartNo);
-            var chartNoJson = JsonConvert.SerializeObject(new {ChartNo = chartNo});
-            var EBMJson = ExecuteByHttpClient("http://localhost:1209/api/Patient/GetPatients", chartNoJson);
-            var EBMList = JsonConvert.DeserializeObject<ApiReturnViewModel<IEnumerable<EBMModel>>>(EBMJson).Data;
+            var EBMList = GetEBMList(chartNo);
 
             apiService.InsertEBM(EBMList);
             Console.ReadKey();
+        }
+
+        private static IEnumerable<EBMModel> GetEBMList(IEnumerable<string> chartNo)
+        {
+            var chartNoJson = JsonConvert.SerializeObject(new {ChartNo = chartNo});
+            var EBMJson = ExecuteByHttpClient("http://localhost:1209/api/Patient/GetPatients", chartNoJson);
+            return JsonConvert.DeserializeObject<ApiReturnViewModel<IEnumerable<EBMModel>>>(EBMJson).Data;
+        }
+
+        private static IEnumerable<string> GetChartNo(IEnumerable<string> Rid)
+        {
+            var data = JsonConvert.SerializeObject(new { RID = Rid});
+            var patientData = ExecuteByHttpClient("http://localhost:1209/api/Patient/GetPatientRounds", data);
+            var patientRoundList = JsonConvert.DeserializeObject<ApiReturnViewModel<IEnumerable<PatientRoundModel>>>(patientData).Data;
+
+            return patientRoundList.Select(x=>x.ChartNo);
         }
 
         private static void RestRequest()
