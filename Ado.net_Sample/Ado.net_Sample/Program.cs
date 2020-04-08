@@ -22,6 +22,7 @@ namespace Ado.net_Sample
 FROM dbo.UserAccount
 WHERE password = @password;";
 
+            #region Use SqlCommand Version.
             //建立SqlConnection物件
             using (var conn = new SqlConnection(_conn))
             {
@@ -46,6 +47,7 @@ WHERE password = @password;";
                     //從料庫中讀取資料
                     using (var dr = cmd.ExecuteReader())
                     {
+
                         //判斷是否還有下一筆資料
                         while (dr.Read())
                         {
@@ -54,7 +56,36 @@ WHERE password = @password;";
                     }
                 }
             }
+            #endregion
 
+            #region Use SqlDataAdapter
+
+            using (var conn = new SqlConnection(_conn))
+            {
+                //打開與資料庫的連接
+                conn.Open();
+
+                //建立Sql的命令類別
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandText = sql;
+                    //預設是 CommandType.Text
+                    cmd.CommandType = CommandType.Text;
+
+                    //如果有使用到參數 添加參數
+                    var para = new SqlParameter(
+                        "@password", SqlDbType.VarChar, 100)
+                    {
+                        Value = password
+                    };
+                    cmd.Parameters.Add(para);
+
+                    DataTable dt = new DataTable();
+                    SqlDataAdapter da = new SqlDataAdapter(cmd);
+                    da.Fill(dt);
+                }
+            }
+            #endregion 
 
             Console.ReadKey();
         }
