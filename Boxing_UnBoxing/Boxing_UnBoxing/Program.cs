@@ -11,6 +11,8 @@ namespace Boxing_UnBoxing
     {
         static void Main(string[] args)
         {
+            int i = 100;
+
             HasBoxing();
             NoBoxing();
             Console.ReadKey();
@@ -42,7 +44,8 @@ namespace Boxing_UnBoxing
 
         /**
         *
-        * 如果執行傳入字串的話,就不會出現Boxing動作
+        * 如果是傳入i.ToString()字串的話,就不會出現Boxing動作
+        * 因為ToString()會回傳字串,並不是一個值.
         */
         private static void NoBoxing()
         {
