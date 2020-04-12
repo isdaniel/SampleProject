@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using BaseReferToSubClass.Service;
 
 namespace BaseReferToSubClass
 {
@@ -9,12 +10,10 @@ namespace BaseReferToSubClass
     {
         static void Main(string[] args)
         {
-            string data = "Hello World";
-
             IAESProvider aesProvider = new AES128Provider("1234567812345678","1234567812345678");
+            ServiceBInjection service = new ServiceBInjection(aesProvider);
+            Console.WriteLine(aesProvider.Decrypt(service.GetDataBy()));
 
-            ShowEncryptData(aesProvider, data);
-            ShowDecryptData(aesProvider, data);
             Console.ReadKey();
         }
 

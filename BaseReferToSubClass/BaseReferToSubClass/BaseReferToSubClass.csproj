@@ -49,6 +49,10 @@
     <Compile Include="IAESProvider.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Service\ServiceA.cs" />
+    <Compile Include="Service\ServiceAInjection.cs" />
+    <Compile Include="Service\ServiceB.cs" />
+    <Compile Include="Service\ServiceBInjection.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
