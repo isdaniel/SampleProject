@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Dapper;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -9,6 +10,9 @@ using System.Threading.Tasks;
 
 namespace Ado.net_Sample
 {
+    public class DataModel { 
+    }
+
     class Program
     {
         private static string _conn = ConfigurationManager.ConnectionStrings["DbConn"].ConnectionString;
@@ -86,6 +90,11 @@ WHERE password = @password;";
                 }
             }
             #endregion 
+
+            using (var conn = new SqlConnection(_conn)) {
+                conn.Open();
+                var result = conn.Query<DataModel>(sql);
+            }
 
             Console.ReadKey();
         }
