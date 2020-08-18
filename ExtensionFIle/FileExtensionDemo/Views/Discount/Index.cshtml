@@ -1,0 +1,24 @@
+﻿@model FileExtensionDemo.Controllers.DiscountViewModel
+
+@{
+    ViewBag.Title = "title";
+}
+
+<table class="table">
+    <tr>
+        <td>名稱</td>
+        <td>價格</td>
+        <td>數量</td>
+    </tr>
+    @foreach (var item in Model.DiscountItems)
+    {
+        <tr>
+            <td>@item.ProductName</td>
+            <td>@item.Price</td>
+            <td>@item.Amount</td>
+        </tr>
+    }
+</table>
+
+總價:@Model.TotalPrice
+
