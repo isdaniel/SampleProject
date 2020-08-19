@@ -3,6 +3,7 @@
 @{
     ViewBag.Title = "title";
 }
+<script src="~/Scripts/jquery-3.3.1.min.js"></script>
 
 <table class="table">
     <tr>
@@ -20,5 +21,27 @@
     }
 </table>
 
-總價:@Model.TotalPrice
+<form>
+    @for (int i = 0; i < Model.PluginName.Count; i++)
+    {
+        @Html.RadioButton("PluginName", Model.PluginName[i]) @Model.PluginName[i] <br />
+        @Html.HiddenFor(m => m.DiscountItems[i].Price)
+        @Html.HiddenFor(m => m.DiscountItems[i].Amount)
+    }
+</form>
+<button id="btn">計算</button>
 
+
+<br />
+總價:<span id="result">@Model.TotalPrice</span>
+
+<script>
+    $(function () {
+        $('#btn').click(function () {
+            $.post("/Discount/DiscountCalc", $('form').serialize(), function (result) {
+                $('#result').html(result);
+            });
+        });
+
+    });
+</script>

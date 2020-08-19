@@ -36,5 +36,7 @@ namespace FileExtensionDemo.Controllers
         public List<DiscountItem> DiscountItems { get; set; }
 
         public decimal TotalPrice { get; set; }
+
+        public List<string> PluginName { get; set; }
     }
 }
