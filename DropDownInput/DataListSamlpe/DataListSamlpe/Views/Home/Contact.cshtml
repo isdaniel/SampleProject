@@ -1,0 +1,36 @@
+﻿@{
+    ViewBag.Title = "Contact";
+}
+<h2>@ViewBag.Title.</h2>
+<h3>@ViewBag.Message</h3>
+
+<address>
+    One Microsoft Way<br />
+    Redmond, WA 98052-6399<br />
+    <abbr title="Phone">P:</abbr>
+    425.555.0100
+</address>
+
+<address>
+    <strong>Support:</strong>   <a href="mailto:Support@example.com">Support@example.com</a><br />
+    <strong>Marketing:</strong> <a href="mailto:Marketing@example.com">Marketing@example.com</a>
+</address>
+
+<label>
+    閱覽者：<input list="customers" name="txt_customers" /> 
+</label>
+<datalist id="customers">
+</datalist>
+
+<script src="/Scripts/jquery-3.3.1.js"></script>
+<script src="/Scripts/bootstrap.js"></script>
+<script>
+    $(function() {
+        $.post('/home/GetCustomerList', function (res) {
+            for(var i = 0;i<res.length;i++)
+            {
+                $('#customers').append($("<option>").attr('value', res[i].CustomerName));
+            }
+        });
+    });
+</script>
