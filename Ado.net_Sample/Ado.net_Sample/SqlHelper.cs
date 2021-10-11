@@ -32,5 +32,21 @@ namespace Ado.net_Sample
                 }
             }
         }
+
+        public void Execute(string sql, 
+            CommandType commandType = CommandType.Text,
+            params SqlParameter[] parameters) {
+            using (var conn = new SqlConnection(_conn))
+            {
+                conn.Open();
+                using (var cmd = conn.CreateCommand())
+                {
+                    cmd.CommandType = commandType;
+                    cmd.CommandText = sql;
+                    cmd.Parameters.AddRange(parameters);
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
     }
 }

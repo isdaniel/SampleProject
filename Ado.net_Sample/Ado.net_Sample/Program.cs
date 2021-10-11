@@ -28,6 +28,24 @@ WHERE password = @password;";
 
             #region Use SqlCommand Version.
             //建立SqlConnection物件
+            SqlExecuteReader(password, sql);
+            #endregion
+
+            #region Use SqlDataAdapter
+            SqlDataAdapter(password, sql);
+            #endregion 
+
+            using (var conn = new SqlConnection(_conn))
+            {
+                conn.Open();
+                var result = conn.Query<DataModel>(sql);
+            }
+
+            Console.ReadKey();
+        }
+
+        private static void SqlExecuteReader(string parameter, string sql)
+        {
             using (var conn = new SqlConnection(_conn))
             {
                 //打開與資料庫的連接
@@ -44,7 +62,7 @@ WHERE password = @password;";
                     var para = new SqlParameter(
                         "@password", SqlDbType.VarChar, 100)
                     {
-                        Value = password
+                        Value = parameter
                     };
                     cmd.Parameters.Add(para);
 
@@ -60,10 +78,10 @@ WHERE password = @password;";
                     }
                 }
             }
-            #endregion
+        }
 
-            #region Use SqlDataAdapter
-
+        private static void SqlDataAdapter(string parameter, string sql)
+        {
             using (var conn = new SqlConnection(_conn))
             {
                 //打開與資料庫的連接
@@ -80,7 +98,7 @@ WHERE password = @password;";
                     var para = new SqlParameter(
                         "@password", SqlDbType.VarChar, 100)
                     {
-                        Value = password
+                        Value = parameter
                     };
                     cmd.Parameters.Add(para);
 
@@ -89,14 +107,6 @@ WHERE password = @password;";
                     da.Fill(dt);
                 }
             }
-            #endregion 
-
-            using (var conn = new SqlConnection(_conn)) {
-                conn.Open();
-                var result = conn.Query<DataModel>(sql);
-            }
-
-            Console.ReadKey();
         }
     }
 }
